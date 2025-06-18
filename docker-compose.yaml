@@ -1,0 +1,37 @@
+services:
+#  postgres:
+#    image: postgres:latest
+#    container_name: magic-postgres
+#    environment:
+#      POSTGRES_DB: configuration_service_db
+#      POSTGRES_USER: configuration_user
+#      POSTGRES_PASSWORD: configuration_password
+#    ports:
+#      - "5433:5432"
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+#    networks:
+#      - salas-project-bridge
+
+  consul:
+    image: consul:1.15.4
+    container_name: consul-server
+    ports:
+      - "8500:8500"     # Web UI и HTTP API
+      - "8600:8600/udp" # DNS (опционально)
+    volumes:
+      - ./tmp/consul/salas_project_consul_data:/consul/data
+    command:
+      - agent
+      - -server
+      - -ui
+      - -client=0.0.0.0
+      - -data-dir=/consul/data
+      - -bootstrap-expect=1
+    networks:
+      - salas-project-bridge
+
+
+networks:
+  salas-project-bridge:
+    driver: bridge

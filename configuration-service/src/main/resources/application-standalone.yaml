@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: configuration-service
+
+  cloud:
+    consul:
+      port: 8500
+      host: localhost
+      discovery:
+        register: true
+        instance-id: configuration-service
+
+server:
+  port: 8081
