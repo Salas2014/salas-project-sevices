@@ -1,17 +1,17 @@
 services:
-#  postgres:
-#    image: postgres:latest
-#    container_name: magic-postgres
-#    environment:
-#      POSTGRES_DB: configuration_service_db
-#      POSTGRES_USER: configuration_user
-#      POSTGRES_PASSWORD: configuration_password
-#    ports:
-#      - "5433:5432"
-#    volumes:
-#      - pgdata:/var/lib/postgresql/data
-#    networks:
-#      - salas-project-bridge
+  postgres:
+    image: postgres:latest
+    container_name: magic-postgres
+    environment:
+      POSTGRES_USER: config_user
+      POSTGRES_PASSWORD: config_password
+      POSTGRES_DB: configuration_service_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./tmp/postgres/pgdata:/var/lib/postgresql/data
+    networks:
+      - salas-project-bridge
 
   consul:
     image: consul:1.15.4

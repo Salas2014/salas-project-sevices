@@ -8,7 +8,7 @@ spring:
       host: localhost
       discovery:
         register: true
-        instance-id: configuration-service
+        instance-id: admin-service
 
 server:
   port: 8082
