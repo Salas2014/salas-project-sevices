@@ -3,9 +3,10 @@ services:
     image: postgres:latest
     container_name: magic-postgres
     environment:
-      POSTGRES_USER: config_user
-      POSTGRES_PASSWORD: config_password
-      POSTGRES_DB: configuration_service_db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
     ports:
       - "5432:5432"
     volumes:
