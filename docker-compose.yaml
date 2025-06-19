@@ -22,6 +22,7 @@ services:
       - "8600:8600/udp" # DNS (опционально)
     volumes:
       - ./tmp/consul/salas_project_consul_data:/consul/data
+      - ./tmp/consul/config:/consul/config
     command:
       - agent
       - -server
@@ -29,6 +30,7 @@ services:
       - -client=0.0.0.0
       - -data-dir=/consul/data
       - -bootstrap-expect=1
+      - -config-file=/consul/config/agent.json
     networks:
       - salas-project-bridge
 

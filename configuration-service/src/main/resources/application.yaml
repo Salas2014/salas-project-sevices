@@ -11,6 +11,9 @@ spring:
       discovery:
         register: true
         instance-id: configuration-service
+        acl-token: ad17e755-1a49-c18e-b453-23332419b68b
+      config:
+        acl-token: ad17e755-1a49-c18e-b453-23332419b68b
 
 server:
   port: 8081
