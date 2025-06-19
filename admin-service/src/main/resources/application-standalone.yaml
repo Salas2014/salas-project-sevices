@@ -1,6 +1,8 @@
 spring:
   application:
     name: admin-service
+  config:
+    import: 'consul:'
 
   cloud:
     consul:
@@ -9,6 +11,6 @@ spring:
       discovery:
         register: true
         instance-id: admin-service
-
-server:
-  port: 8082
+      config:
+        format: yaml
+        data-key: data #default data

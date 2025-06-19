@@ -1,1 +1,0 @@
-{"Token":"","Service":{"ID":"configuration-service","Service":"configuration-service","Tags":[],"Address":"fcmkh.mshome.net","Meta":{"secure":"false"},"Port":8081,"Weights":{"Passing":1,"Warning":1},"EnableTagOverride":false,"Proxy":{"Mode":"","MeshGateway":{},"Expose":{}},"Connect":{},"PeerName":"","CreateIndex":0,"ModifyIndex":0},"Source":"remote"}
