@@ -2,7 +2,27 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/consul/config" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/consul/salas_project_consul_data/checks" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/consul/salas_project_consul_data/raft/snapshots" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/consul/salas_project_consul_data/services" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_commit_ts" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_dynshmem" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_logical/mappings" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_logical/snapshots" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_notify" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_replslot" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_serial" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_snapshots" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_stat" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_stat_tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_tblspc" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_twophase" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_wal/archive_status" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp/postgres/pgdata/pg_wal/summaries" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

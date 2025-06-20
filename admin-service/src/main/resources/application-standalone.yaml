@@ -16,3 +16,15 @@ spring:
         format: yaml
         data-key: data #default data
         acl-token: 35472bac-d144-f832-2cff-6aa1dc16549b
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+  prometheus:
+    metrics:
+      export:
+        enabled: true

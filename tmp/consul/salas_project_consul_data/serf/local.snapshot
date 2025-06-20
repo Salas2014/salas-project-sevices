@@ -28,3 +28,17 @@ alive: ff47c25135d0 172.29.0.3:8301
 event-clock: 14
 alive: ff47c25135d0 172.29.0.3:8301
 event-clock: 15
+alive: ff47c25135d0 172.29.0.2:8301
+event-clock: 16
+alive: 3532bc0167b3 172.29.0.3:8301
+event-clock: 17
+alive: d11d20484156 172.29.0.3:8301
+event-clock: 18
+alive: 72128fb262f2 172.29.0.2:8301
+event-clock: 19
+alive: fbd7d3307bb4 172.30.0.3:8301
+event-clock: 20
+alive: e793aec384fe 172.29.0.3:8301
+event-clock: 21
+alive: b7dc1a0b1af2 172.30.0.3:8301
+event-clock: 22
