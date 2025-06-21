@@ -42,3 +42,7 @@ alive: e793aec384fe 172.29.0.3:8301
 event-clock: 21
 alive: b7dc1a0b1af2 172.30.0.3:8301
 event-clock: 22
+alive: f6e02052c7d7 172.30.0.2:8301
+event-clock: 23
+alive: f6e02052c7d7 172.30.0.2:8301
+event-clock: 24
