@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: translation-service
+  config:
+    import: 'consul:'
+  cloud:
+    consul:
+      port: 8500
+      host: localhost
+      discovery:
+        enabled: true
+        instance-id: translation-service
+        acl-token: 6a44dcbe-1557-5bd7-b59b-b575bea703b9
+      config:
+        acl-token: 6a44dcbe-1557-5bd7-b59b-b575bea703b9
+        format: yaml
+        data-key: data
+server:
+  port: 8083
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: translation-service
+
+
+
