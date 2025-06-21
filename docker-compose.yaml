@@ -53,7 +53,7 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - ./tmt/grafana:/var/lib/grafana
+      - ./tmp/grafana:/var/lib/grafana
 
 
 networks:
