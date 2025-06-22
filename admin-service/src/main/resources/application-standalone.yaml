@@ -16,6 +16,14 @@ spring:
         format: yaml
         data-key: data #default data
         acl-token: 35472bac-d144-f832-2cff-6aa1dc16549b
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: basic
+
 
 management:
   endpoints:
@@ -24,10 +32,19 @@ management:
         include:
           - health
           - prometheus
+          - metrics
+          - info
   prometheus:
     metrics:
       export:
         enabled: true
   metrics:
     tags:
-      application: admin-service
+      application: ${spring.application.name}
+
+
+    distribution:
+      percentiles-histogram:
+        http.client.requests: true
+        http.server.requests: true
+
