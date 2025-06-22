@@ -24,7 +24,6 @@ spring:
             readTimeout: 5000
             loggerLevel: basic
 
-
 management:
   endpoints:
     web:
