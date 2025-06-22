@@ -1,4 +1,7 @@
 package com.salas.configuration.repository;
 
-public interface UserRepo {
+import com.salas.configuration.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepo extends JpaRepository<User,Long> {
 }

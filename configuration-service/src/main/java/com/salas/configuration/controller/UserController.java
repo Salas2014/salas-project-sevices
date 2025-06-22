@@ -1,8 +1,9 @@
 package com.salas.configuration.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.salas.configuration.dto.UserDto;
+import com.salas.configuration.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +12,30 @@ import java.util.List;
 @RequestMapping("/v1/users")
 public class UserController {
 
-    record User(Integer id, String username) {}
+    private final UserService  userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
-    public List<User> getUsers() {
-        List<User> users = new ArrayList<User>();
-        for (int i = 0; i < 10; i++) {
-            users.add(new User(i, "user-" + i));
-        }
-        return users;
+    public List<UserDto> getUsers() {
+       return userService.findAll();
+    }
+
+    @PostMapping
+    public UserDto createUser(@RequestBody UserDto userDto) {
+        return userService.create(userDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteById(id);
+    }
+
+    @GetMapping("/{id}")
+    public UserDto getUserById(@PathVariable Long id) {
+        return userService.findById(id);
     }
 }

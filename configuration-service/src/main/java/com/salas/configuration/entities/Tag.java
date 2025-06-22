@@ -23,5 +23,7 @@ public class Tag {
     private List<ConfigurationTags> configurations;
 
     public Tag(String name, Integer priority) {
+        this.name = name;
+        this.priority = priority;
     }
 }
