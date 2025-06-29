@@ -13,6 +13,8 @@ spring:
         instance-id: configuration-service
         acl-token: ad17e755-1a49-c18e-b453-23332419b68b
       config:
+        format: yaml
+        data-key: my-location
         acl-token: ad17e755-1a49-c18e-b453-23332419b68b
 
 server:
