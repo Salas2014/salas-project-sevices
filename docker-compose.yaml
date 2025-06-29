@@ -54,6 +54,26 @@ services:
     volumes:
       - ./tmp/grafana:/var/lib/grafana
 
+  redis:
+    image: redis:latest
+    container_name: salas-redis
+    ports:
+      - "6380:6379"
+    networks:
+      - salas-project-bridge
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    container_name: salas-redisinsight
+    restart: always
+    depends_on:
+      - redis
+    ports:
+      - "5541:5540"
+    volumes:
+      - ./tmp/redis/redis-insight:/data/logs
+    networks:
+      - salas-project-bridge
 
 networks:
   salas-project-bridge:
