@@ -7,6 +7,7 @@ import com.salas.configuration.entities.Tag;
 import com.salas.configuration.repository.ConfigurationTagsRepo;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +19,15 @@ public class ConfigurationTagsService {
 
     private final ConfigurationTagsRepo configurationTagsRepo;
     private static final String CASH_NAME = "configTags";
+    RedisConnectionFactory factory;
 
-    public ConfigurationTagsService(ConfigurationTagsRepo configurationTagsRepo) {
+    public ConfigurationTagsService(ConfigurationTagsRepo configurationTagsRepo,
+                                    RedisConnectionFactory factory) {
         this.configurationTagsRepo = configurationTagsRepo;
+        this.factory = factory;
     }
 
-    @Cacheable( cacheNames = "configTagsAll" )
+    @Cacheable(cacheNames = "configTagsAll")
     public List<ConfigurationTagsDto> findAll() {
         return configurationTagsRepo.findAll()
                 .stream()

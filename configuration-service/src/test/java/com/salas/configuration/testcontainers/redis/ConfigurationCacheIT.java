@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -42,17 +45,31 @@ public class ConfigurationCacheIT extends AbstractIntegrationTest {
     private ConfigurationTagsRepo spyRepository;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private CacheManager cacheManager;
 
 
     Integer id;
 
     @BeforeEach
     void init() {
+        clearCache();
         ConfigurationTags entity = new ConfigurationTags();
         entity.setPlatform("Mobile");
         entity.setMessage("Test Tag");
 
         id = repository.save(entity).getId();
+    }
+
+    private void clearCache() {
+        if (cacheManager != null) {
+            cacheManager.getCacheNames().forEach(cacheName -> {
+                Cache cache = cacheManager.getCache(cacheName);
+                if (cache != null) {
+                    cache.clear();
+                }
+            });
+        }
     }
 
 
