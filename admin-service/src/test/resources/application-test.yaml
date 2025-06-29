@@ -1,0 +1,28 @@
+spring:
+  config:
+    import: optional:classpath:/application.yml
+
+  cloud:
+    consul:
+      config:
+        enabled: false
+      discovery:
+        enabled: false
+    openfeign:
+      circuitbreaker:
+        enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      user-client:
+        failureRateThreshold: 100
+        minimumNumberOfCalls: 1
+        slidingWindowSize: 2
+        waitDurationInOpenState: 5s
+
+user:
+  client:
+    url: http://localhost:${wiremock.server.port}
+
+

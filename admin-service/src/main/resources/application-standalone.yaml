@@ -17,12 +17,30 @@ spring:
         data-key: data #default data
         acl-token: 35472bac-d144-f832-2cff-6aa1dc16549b
     openfeign:
+      circuitbreaker:
+        enabled: true
       client:
         config:
           default:
             connectTimeout: 5000
             readTimeout: 5000
             loggerLevel: basic
+
+# test and understand this stuff was applied or not
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+    instances:
+      configuration-service:
+        baseConfig: default
+      user-service:
+        baseConfig: default
 
 management:
   endpoints:

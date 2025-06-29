@@ -29,7 +29,6 @@ public class UserControllerTest extends AbstractIntegrationTest {
 
     @BeforeEach
     void setUp() {
-
         userRepo.deleteAll();
     }
 

@@ -1,11 +1,8 @@
 package com.salas.configuration.persistence.testcontainers;
 
-import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -28,7 +25,6 @@ public class AbstractIntegrationTest {
     public static void afterAll() {
         postgres.stop();
     }
-
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
