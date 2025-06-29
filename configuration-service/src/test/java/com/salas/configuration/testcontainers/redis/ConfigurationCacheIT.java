@@ -16,7 +16,6 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import java.time.Duration;
@@ -25,10 +24,10 @@ import static org.awaitility.Awaitility.await;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@Testcontainers
 @SpringBootTest(properties = "spring.cloud.consul.enabled=false")
 @ActiveProfiles("test")
 public class ConfigurationCacheIT extends AbstractIntegrationTest {
+
     @Container
     static GenericContainer<?> redis = new GenericContainer(DockerImageName.parse("redis:7.2"))
             .withExposedPorts(6379);
@@ -40,8 +39,7 @@ public class ConfigurationCacheIT extends AbstractIntegrationTest {
     private ConfigurationTagsRepo repository;
 
     @SpyBean
-    private ConfigurationTagsRepo spyTagsRepo;
-
+    private ConfigurationTagsRepo spyRepository;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -70,7 +68,7 @@ public class ConfigurationCacheIT extends AbstractIntegrationTest {
         await().atMost(Duration.ofSeconds(7))
                 .untilAsserted(() -> {
                     configurationTagsService.findById(id);
-                    verify(spyTagsRepo, times(2)).findById(id);
+                    verify(spyRepository, times(2)).findById(id);
                 });
 
     }
@@ -81,7 +79,7 @@ public class ConfigurationCacheIT extends AbstractIntegrationTest {
         await().atMost(Duration.ofSeconds(3))
                 .untilAsserted(() -> {
                     configurationTagsService.findById(id);
-                    verify(spyTagsRepo, times(1)).findById(id);
+                    verify(spyRepository, times(1)).findById(id);
                 });
     }
 
