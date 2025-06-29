@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -72,7 +71,6 @@ public class ConfigurationCacheIT extends AbstractIntegrationTest {
         }
     }
 
-
     @DynamicPropertySource
     static void overrideRedisProps(DynamicPropertyRegistry registry) {
         registry.add("spring.data.redis.host", redis::getHost);
@@ -87,7 +85,6 @@ public class ConfigurationCacheIT extends AbstractIntegrationTest {
                     configurationTagsService.findById(id);
                     verify(spyRepository, times(2)).findById(id);
                 });
-
     }
 
     @Test
