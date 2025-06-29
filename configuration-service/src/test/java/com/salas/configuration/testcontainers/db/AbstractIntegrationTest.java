@@ -1,4 +1,4 @@
-package com.salas.configuration.persistence.testcontainers;
+package com.salas.configuration.testcontainers.db;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

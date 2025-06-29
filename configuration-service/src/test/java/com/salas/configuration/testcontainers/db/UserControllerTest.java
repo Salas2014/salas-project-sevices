@@ -1,4 +1,4 @@
-package com.salas.configuration.persistence.testcontainers;
+package com.salas.configuration.testcontainers.db;
 
 import com.salas.configuration.entities.User;
 import com.salas.configuration.repository.UserRepo;
