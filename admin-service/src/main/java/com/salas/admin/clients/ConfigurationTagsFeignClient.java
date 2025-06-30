@@ -3,6 +3,7 @@ package com.salas.admin.clients;
 import com.salas.admin.dto.ConfigurationTagsDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -21,4 +22,7 @@ public interface ConfigurationTagsFeignClient {
 
     @GetMapping
     List<ConfigurationTagsDto> getAll();
+
+    @GetMapping("/{id}")
+    ConfigurationTagsDto getById(@PathVariable Integer id);
 }

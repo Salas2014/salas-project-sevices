@@ -1,8 +1,9 @@
 package com.salas.admin.controller;
 
-import com.salas.admin.clients.ConfigurationTagsFeignClient;
 import com.salas.admin.dto.ConfigurationTagsDto;
+import com.salas.admin.service.ConfigurationTagsService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,14 +13,19 @@ import java.util.List;
 @RequestMapping("/configuration-tags")
 public class ConfigurationTagsRestController {
 
-    private final ConfigurationTagsFeignClient configurationTagsFeignClient;
+    private final ConfigurationTagsService service;
 
-    public ConfigurationTagsRestController(ConfigurationTagsFeignClient configurationTagsFeignClient) {
-        this.configurationTagsFeignClient = configurationTagsFeignClient;
+    public ConfigurationTagsRestController(ConfigurationTagsService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<ConfigurationTagsDto> getAll() {
-        return configurationTagsFeignClient.getAll();
+        return service.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public ConfigurationTagsDto getById(@PathVariable("id") Integer id) {
+        return service.getById(id);
     }
 }
