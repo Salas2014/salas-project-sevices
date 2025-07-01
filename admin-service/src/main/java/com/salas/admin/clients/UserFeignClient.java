@@ -15,7 +15,6 @@ import static com.salas.admin.clients.UserFeignClient.FEIGN_CLIENT_NAME;
 
 @FeignClient(
         name = "configuration-service",
-        url = "${user.client.url:}",
         path = BASE_PATH,
         contextId = FEIGN_CLIENT_NAME,
         fallbackFactory = UserFeignClient.UserFallback.class,

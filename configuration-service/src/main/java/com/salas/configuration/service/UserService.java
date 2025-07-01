@@ -4,6 +4,7 @@ import com.salas.configuration.dto.UserDto;
 import com.salas.configuration.entities.User;
 import com.salas.configuration.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

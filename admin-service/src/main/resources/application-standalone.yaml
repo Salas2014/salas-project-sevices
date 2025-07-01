@@ -9,6 +9,7 @@ spring:
       port: 8500
       host: localhost
       discovery:
+        hostname: host.docker.internal
         register: true
         instance-id: admin-service
         acl-token: 35472bac-d144-f832-2cff-6aa1dc16549b
@@ -58,10 +59,10 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
-
-
     distribution:
       percentiles-histogram:
         http.client.requests: true
         http.server.requests: true
 
+server:
+  address: 0.0.0.0
