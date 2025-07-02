@@ -14,7 +14,6 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasSize;
 
-
 public class UserControllerTest extends AbstractIntegrationTest {
     @LocalServerPort
     private Integer port;

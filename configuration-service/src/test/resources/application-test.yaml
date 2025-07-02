@@ -4,6 +4,7 @@ spring:
     consul:
       config:
         enabled: false
+      enabled: false
   data:
     redis:
       port: 12345

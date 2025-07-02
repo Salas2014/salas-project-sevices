@@ -26,8 +26,6 @@ import static org.awaitility.Awaitility.await;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@SpringBootTest(properties = "spring.cloud.consul.enabled=false")
-@ActiveProfiles("test")
 public class ConfigurationCacheIT extends AbstractIntegrationTest {
 
     @Container
@@ -36,17 +34,14 @@ public class ConfigurationCacheIT extends AbstractIntegrationTest {
 
     @Autowired
     ConfigurationTagsService configurationTagsService;
-
     @Autowired
     private ConfigurationTagsRepo repository;
-
     @SpyBean
     private ConfigurationTagsRepo spyRepository;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
     @Autowired
     private CacheManager cacheManager;
-
 
     Integer id;
 
