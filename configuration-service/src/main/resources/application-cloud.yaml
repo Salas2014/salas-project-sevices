@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: configuration-service
+
+  config:
+    import: 'consul:'
+  cloud:
+    consul:
+      port: 8500
+      host: consul-server
+      discovery:
+        hostname: host.docker.internal
+        register: true
+        instance-id: configuration-service
+        acl-token: ad17e755-1a49-c18e-b453-23332419b68b
+      config:
+        format: yaml
+        data-key: my-location
+        acl-token: ad17e755-1a49-c18e-b453-23332419b68b
+
+server:
+  address: 0.0.0.0
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: configuration-service
