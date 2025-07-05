@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: salas-configuration-service-deployment
+spec:
+  selector:
+    matchLabels:
+      app: salas-configuration-service
+  template:
+    metadata:
+      labels:
+        app: salas-configuration-service
+    spec:
+      containers:
+        - name: salas-configuration-service
+          image: filemane/configuration-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: kube
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: salas-configuration-service-service
+spec:
+  type: NodePort
+  ports:
+    - port: 8081
+      targetPort: 8081
+  selector:
+    app: salas-configuration-service
+
+#---
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: salas-configuration-service-ingress
+#spec:
+#  rules:
+#    - host: salas.configuration.service
+#      http:
+#        paths:
+#          - path: /
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: salas-configuration-service-service
+#                port:
+#                  number: 8081
+
+
