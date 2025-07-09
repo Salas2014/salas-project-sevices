@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class ProductService {
@@ -30,17 +31,17 @@ public class ProductService {
     public String createProduct(CreatedProductDto product) {
         String productId = UUID.randomUUID().toString();
         var createProductEvent = new CreateProductEvent(productId, product.getTitle(), product.getPrice(), product.getCount());
-        CompletableFuture<SendResult<String, Object>> future = kafkaTemplate.send(topicName, productId, createProductEvent);
+        SendResult<String, Object> result;
+        try {
+            result = kafkaTemplate.send(topicName, productId, createProductEvent).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
 
-        future.whenComplete((result, exception) -> {
-            if (exception != null) {
-                LOGGER.error("Failed to send product event: {}", exception.getMessage());
-            } else {
-                LOGGER.info("Successfully sent product event: {}" , result.getRecordMetadata());
-            }
-        });
 
-        LOGGER.info("Return: {}", product);
+        LOGGER.info("Topic: {}", result.getRecordMetadata().topic());
+        LOGGER.info("Partition: {}", result.getRecordMetadata().partition());
+        LOGGER.info("Offset: {}", result.getRecordMetadata().offset());
 
         return productId;
     }
