@@ -1,13 +1,17 @@
 package com.salas.productservice.config;
 
+import com.salas.productservice.dto.EventCustom;
+import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
@@ -18,6 +22,9 @@ import java.util.Map;
 @Configuration
 @EnableKafka
 public class KafkaConfig {
+
+    @Value("${topics.topic.name:}")
+    private String topicName;
 
     @Bean
     public ProducerFactory<String, Object> producerFactory() {
@@ -34,10 +41,16 @@ public class KafkaConfig {
         return new KafkaTemplate<>(producerFactory());
     }
 
+    @Bean
+    public KafkaAdmin kafkaAdmin() {
+        Map<String, Object> configs = new HashMap<>();
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39094");
+        return new KafkaAdmin(configs);
+    }
 
     @Bean
     NewTopic newTopic() {
-        return TopicBuilder.name("product-created-event-topic")
+        return TopicBuilder.name(topicName)
                 .partitions(3)
                 .replicas(3)
                 .configs(Map.of("min.insync.replicas", "2"))

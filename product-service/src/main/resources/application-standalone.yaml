@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: product-service
+server:
+  port: 0
+
+topics:
+  topic:
+    name: product-created-event-topic

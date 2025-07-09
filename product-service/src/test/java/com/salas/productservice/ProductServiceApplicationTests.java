@@ -1,10 +1,10 @@
-package com.salas.translation.service;
+package com.salas.productservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TranslationServiceApplicationTests {
+class ProductServiceApplicationTests {
 
     @Test
     void contextLoads() {
