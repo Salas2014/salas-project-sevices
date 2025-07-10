@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: email-notification-consumer-service
+server:
+  port: 0
