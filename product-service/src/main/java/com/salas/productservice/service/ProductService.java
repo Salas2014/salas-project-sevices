@@ -1,8 +1,7 @@
 package com.salas.productservice.service;
 
-import com.salas.productservice.dto.CreateProductEvent;
+import com.salas.common.events.CreateProductEvent;
 import com.salas.productservice.dto.CreatedProductDto;
-import com.salas.productservice.dto.EventCustom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @Service
