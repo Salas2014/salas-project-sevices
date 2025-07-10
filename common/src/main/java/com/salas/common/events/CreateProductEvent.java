@@ -1,4 +1,4 @@
-package com.salas.productservice.dto;
+package com.salas.common.events;
 
 import java.math.BigDecimal;
 
