@@ -1,6 +1,7 @@
 package com.salas.email.consumer.config;
 
 import com.salas.email.consumer.exceptions.NonRetryableException;
+import com.salas.email.consumer.exceptions.RetryableException;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -10,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
-import org.springframework.kafka.listener.BackOffHandler;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
@@ -55,9 +55,9 @@ public class KafkaConfig {
 
     private static DefaultErrorHandler getDefaultErrorHandler(KafkaTemplate kafkaTemplate) {
         FixedBackOff fixedBackOff = new FixedBackOff(3000, 3);
-        var defaultErrorHandler = new DefaultErrorHandler(new DeadLetterPublishingRecoverer(kafkaTemplate),fixedBackOff);
+        var defaultErrorHandler = new DefaultErrorHandler(new DeadLetterPublishingRecoverer(kafkaTemplate), fixedBackOff);
         defaultErrorHandler.addNotRetryableExceptions(NonRetryableException.class);
-        defaultErrorHandler.addRetryableExceptions(NonRetryableException.class);
+        defaultErrorHandler.addRetryableExceptions(RetryableException.class);
         return defaultErrorHandler;
     }
 

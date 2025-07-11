@@ -31,7 +31,7 @@ public class ProductCratedEventHandler {
     public void handle(CreateProductEvent event) {
         LOGGER.info("Create product event received: {}", event.getTitle());
 
-        var url = "http://localhost:8090";
+        var url = "http://localhost:8090/response/500";
 
         try {
             ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
