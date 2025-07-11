@@ -1,5 +1,6 @@
 package com.salas.email.consumer.config;
 
+import com.salas.email.consumer.exceptions.NonRetryableException;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -9,12 +10,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.listener.BackOffHandler;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +41,8 @@ public class KafkaConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, Object> kafkaListenerContainerFactory(KafkaTemplate kafkaTemplate) {
-        var defaultErrorHandler = new DefaultErrorHandler(new DeadLetterPublishingRecoverer(kafkaTemplate));
+        var defaultErrorHandler = getDefaultErrorHandler(kafkaTemplate);
+
         ConcurrentKafkaListenerContainerFactory<String, Object> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
@@ -47,6 +51,14 @@ public class KafkaConfig {
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
         factory.setCommonErrorHandler(defaultErrorHandler);
         return factory;
+    }
+
+    private static DefaultErrorHandler getDefaultErrorHandler(KafkaTemplate kafkaTemplate) {
+        FixedBackOff fixedBackOff = new FixedBackOff(3000, 3);
+        var defaultErrorHandler = new DefaultErrorHandler(new DeadLetterPublishingRecoverer(kafkaTemplate),fixedBackOff);
+        defaultErrorHandler.addNotRetryableExceptions(NonRetryableException.class);
+        defaultErrorHandler.addRetryableExceptions(NonRetryableException.class);
+        return defaultErrorHandler;
     }
 
     @Bean
