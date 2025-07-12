@@ -34,8 +34,9 @@ public class KafkaConfig {
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
 
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "product-created-consumer");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "salas-odesa-consumer");
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.salas.common.events");
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
         return new DefaultKafkaConsumerFactory<>(props);
     }
 

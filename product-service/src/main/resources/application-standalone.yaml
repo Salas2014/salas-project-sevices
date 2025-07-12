@@ -6,4 +6,4 @@ server:
 
 topics:
   topic:
-    name: product-created-event-topic
+    name: salas-odesa-topic

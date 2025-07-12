@@ -16,7 +16,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-@KafkaListener(topics = "product-created-event-topic")
+@KafkaListener(topics = "salas-odesa-topic")
 public class ProductCratedEventHandler {
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -31,7 +31,7 @@ public class ProductCratedEventHandler {
     public void handle(CreateProductEvent event) {
         LOGGER.info("Create product event received: {}", event.getTitle());
 
-        var url = "http://localhost:8090/response/500";
+        var url = "http://localhost:8090/response/200";
 
         try {
             ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
