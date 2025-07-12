@@ -1,5 +1,6 @@
 package com.salas.productservice.config;
 
+import com.salas.common.events.CreateProductEvent;
 import com.salas.productservice.dto.EventCustom;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -27,7 +28,7 @@ public class KafkaConfig {
     private String topicName;
 
     @Bean
-    public ProducerFactory<String, Object> producerFactory() {
+    public ProducerFactory<String, CreateProductEvent> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39094");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -41,7 +42,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, Object> kafkaTemplate() {
+    public KafkaTemplate<String, CreateProductEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
