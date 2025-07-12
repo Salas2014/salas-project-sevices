@@ -2,6 +2,7 @@ package com.salas.productservice.service;
 
 import com.salas.common.events.CreateProductEvent;
 import com.salas.productservice.dto.CreatedProductDto;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,28 +20,33 @@ public class ProductService {
     private String topicName;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTemplate<String, CreateProductEvent> kafkaTemplate;
 
     @Autowired
-    public ProductService(KafkaTemplate<String, Object> kafkaTemplate) {
+    public ProductService(KafkaTemplate<String, CreateProductEvent> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public String createProduct(CreatedProductDto product) {
+    public String createProduct(CreatedProductDto product) throws ExecutionException, InterruptedException {
         String productId = UUID.randomUUID().toString();
-        var createProductEvent = new CreateProductEvent(productId, product.getTitle(), product.getPrice(), product.getCount());
-        SendResult<String, Object> result;
-        try {
-            result = kafkaTemplate.send(topicName, productId, createProductEvent).get();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        ProducerRecord<String, CreateProductEvent> record = buildRecord(product, productId);
 
+        SendResult<String, CreateProductEvent> result = kafkaTemplate.send(record).get();
 
         LOGGER.info("Topic: {}", result.getRecordMetadata().topic());
         LOGGER.info("Partition: {}", result.getRecordMetadata().partition());
         LOGGER.info("Offset: {}", result.getRecordMetadata().offset());
 
         return productId;
+    }
+
+    private ProducerRecord<String, CreateProductEvent> buildRecord(CreatedProductDto product, String productId) {
+        var createProductEvent = new CreateProductEvent(productId, product.getTitle(), product.getPrice(), product.getCount());
+        ProducerRecord<String, CreateProductEvent> record = new ProducerRecord<>(
+                topicName,
+                productId,
+                createProductEvent);
+        record.headers().add("messageId", UUID.randomUUID().toString().getBytes());
+        return record;
     }
 }
