@@ -5,5 +5,7 @@ server:
   port: 0
 
 topics:
-  topic:
-    name: salas-odesa-topic
+  topics-name:
+    topic-product: salas-odesa-topic
+    topic-withdraw: withdrew-event-topic
+    topic-deposit: deposit-event-topic

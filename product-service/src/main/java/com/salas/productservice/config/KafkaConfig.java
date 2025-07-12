@@ -1,7 +1,5 @@
 package com.salas.productservice.config;
 
-import com.salas.common.events.CreateProductEvent;
-import com.salas.productservice.dto.EventCustom;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -24,11 +22,17 @@ import java.util.Map;
 @EnableKafka
 public class KafkaConfig {
 
-    @Value("${topics.topic.name:}")
+    @Value("${topics.topics-name.topic-product:}")
     private String topicName;
 
+    @Value("${topics.topics-name.topic-withdraw:}")
+    private String withDrowTopicName;
+
+    @Value("${topics.topics-name.topic-deposit:}")
+    private String depositTopicName;
+
     @Bean
-    public ProducerFactory<String, CreateProductEvent> producerFactory() {
+    public ProducerFactory<String, Object> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39094");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -42,7 +46,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, CreateProductEvent> kafkaTemplate() {
+    public KafkaTemplate<String, Object> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
@@ -61,4 +65,23 @@ public class KafkaConfig {
                 .configs(Map.of("min.insync.replicas", "2"))
                 .build();
     }
+
+    @Bean
+    NewTopic withdrawTopic() {
+        return TopicBuilder.name(withDrowTopicName)
+                .partitions(3)
+                .replicas(3)
+                .configs(Map.of("min.insync.replicas", "2"))
+                .build();
+    }
+
+    @Bean
+    NewTopic depositTopic() {
+        return TopicBuilder.name(depositTopicName)
+                .partitions(3)
+                .replicas(3)
+                .configs(Map.of("min.insync.replicas", "2"))
+                .build();
+    }
+
 }

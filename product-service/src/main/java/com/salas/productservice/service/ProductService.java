@@ -16,22 +16,22 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class ProductService {
-    @Value("${topics.topic.name:}")
+    @Value("${topics.topics-name.topic-product:}")
     private String topicName;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-    private final KafkaTemplate<String, CreateProductEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Autowired
-    public ProductService(KafkaTemplate<String, CreateProductEvent> kafkaTemplate) {
+    public ProductService(KafkaTemplate<String, Object> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
     public String createProduct(CreatedProductDto product) throws ExecutionException, InterruptedException {
         String productId = UUID.randomUUID().toString();
-        ProducerRecord<String, CreateProductEvent> record = buildRecord(product, productId);
+        ProducerRecord<String, Object> record = buildRecord(product, productId);
 
-        SendResult<String, CreateProductEvent> result = kafkaTemplate.send(record).get();
+        SendResult<String, Object> result = kafkaTemplate.send(record).get();
 
         LOGGER.info("Topic: {}", result.getRecordMetadata().topic());
         LOGGER.info("Partition: {}", result.getRecordMetadata().partition());
@@ -40,9 +40,9 @@ public class ProductService {
         return productId;
     }
 
-    private ProducerRecord<String, CreateProductEvent> buildRecord(CreatedProductDto product, String productId) {
+    private ProducerRecord<String, Object> buildRecord(CreatedProductDto product, String productId) {
         var createProductEvent = new CreateProductEvent(productId, product.getTitle(), product.getPrice(), product.getCount());
-        ProducerRecord<String, CreateProductEvent> record = new ProducerRecord<>(
+        ProducerRecord<String, Object> record = new ProducerRecord<>(
                 topicName,
                 productId,
                 createProductEvent);
