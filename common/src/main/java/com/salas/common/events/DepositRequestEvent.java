@@ -1,20 +1,22 @@
-package com.salas.common.events.transfer;
+package com.salas.common.events;
 
 import java.math.BigDecimal;
 
-public class TransferRestModel {
+public class DepositRequestEvent implements CustomEvent {
+
 
     private String senderId;
     private String receiverId;
     private BigDecimal amount;
 
-    public TransferRestModel() {
-    }
 
-    public TransferRestModel(String senderId, String receiverId, BigDecimal amount) {
+    public DepositRequestEvent(String senderId, String receiverId, BigDecimal amount) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.amount = amount;
+    }
+
+    public DepositRequestEvent() {
     }
 
     public String getSenderId() {

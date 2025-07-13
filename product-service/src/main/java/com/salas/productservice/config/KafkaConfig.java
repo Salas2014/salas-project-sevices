@@ -14,9 +14,11 @@ import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.kafka.transaction.KafkaTransactionManager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 @Configuration
 @EnableKafka
@@ -41,6 +43,7 @@ public class KafkaConfig {
         props.put(ProducerConfig.RETRIES_CONFIG, 10);
         props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 1000);
         props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+        props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "producer-transactional-id: " + new Random().nextLong());
 
         return new DefaultKafkaProducerFactory<>(props);
     }
@@ -55,6 +58,11 @@ public class KafkaConfig {
         Map<String, Object> configs = new HashMap<>();
         configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39094");
         return new KafkaAdmin(configs);
+    }
+
+    @Bean
+    public KafkaTransactionManager<String, Object> kafkaTransactionManager() {
+        return new KafkaTransactionManager<>(producerFactory());
     }
 
     @Bean

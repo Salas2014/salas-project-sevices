@@ -1,4 +1,4 @@
-package com.salas.common.events.transfer;
+package com.salas.common.events;
 
 import java.math.BigDecimal;
 

@@ -7,5 +7,13 @@ server:
 topics:
   topics-name:
     topic-product: salas-odesa-topic
-    topic-withdraw: withdrew-event-topic
+    topic-withdraw: withdraw-event-topic
     topic-deposit: deposit-event-topic
+
+logging:
+  level:
+    org:
+      springframework:
+        transaction: trace
+        kafka:
+          transaction: trace

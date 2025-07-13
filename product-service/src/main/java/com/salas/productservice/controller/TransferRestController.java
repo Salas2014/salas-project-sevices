@@ -1,6 +1,6 @@
 package com.salas.productservice.controller;
 
-import com.salas.common.events.transfer.TransferRestModel;
+import com.salas.common.events.TransferRestModel;
 import com.salas.productservice.service.TransferService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

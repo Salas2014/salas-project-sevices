@@ -1,9 +1,9 @@
 package com.salas.productservice.service;
 
-import com.salas.common.events.transfer.CustomEvent;
-import com.salas.common.events.transfer.DepositRequestEvent;
-import com.salas.common.events.transfer.TransferRestModel;
-import com.salas.common.events.transfer.WithdrawRequestEvent;
+import com.salas.common.events.CustomEvent;
+import com.salas.common.events.DepositRequestEvent;
+import com.salas.common.events.TransferRestModel;
+import com.salas.common.events.WithdrawRequestEvent;
 import com.salas.productservice.exceptions.TransferServiceException;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
@@ -35,6 +36,7 @@ public class TransferService {
         this.environment = environment;
     }
 
+    @Transactional
     public boolean transfer(TransferRestModel model) {
         var withDrowEvent = new WithdrawRequestEvent(model.getSenderId(), model.getReceiverId(), model.getAmount());
         var depositEvent = new DepositRequestEvent(model.getSenderId(), model.getReceiverId(), model.getAmount());
@@ -60,7 +62,7 @@ public class TransferService {
             throw new TransferServiceException(e);
         }
 
-        return false;
+        return true;
     }
 
     private void callRemoteService() {
