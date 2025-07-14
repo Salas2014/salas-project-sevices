@@ -5,6 +5,8 @@ import com.salas.common.events.DepositRequestEvent;
 import com.salas.common.events.TransferRestModel;
 import com.salas.common.events.WithdrawRequestEvent;
 import com.salas.productservice.exceptions.TransferServiceException;
+import com.salas.productservice.percistence.TransferEntity;
+import com.salas.productservice.percistence.TransferRepository;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,20 +30,29 @@ public class TransferService {
     private final RestTemplate restTemplate;
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final Environment environment;
+    private final TransferRepository transferRepository;
 
     @Autowired
-    public TransferService(KafkaTemplate<String, Object> kafkaTemplate, RestTemplate restTemplate, Environment environment) {
+    public TransferService(KafkaTemplate<String, Object> kafkaTemplate,
+                           RestTemplate restTemplate,
+                           Environment environment,
+                           TransferRepository transferRepository) {
         this.kafkaTemplate = kafkaTemplate;
         this.restTemplate = restTemplate;
         this.environment = environment;
+        this.transferRepository = transferRepository;
     }
 
-    @Transactional
+    @Transactional("transactionManager")
     public boolean transfer(TransferRestModel model) {
         var withDrowEvent = new WithdrawRequestEvent(model.getSenderId(), model.getReceiverId(), model.getAmount());
         var depositEvent = new DepositRequestEvent(model.getSenderId(), model.getReceiverId(), model.getAmount());
 
         try {
+
+            var transferEntity = new TransferEntity(model.getSenderId(), model.getReceiverId(), model.getAmount());
+            transferRepository.save(transferEntity);
+
             String topicWithdrawName = Objects.requireNonNull(environment.getProperty("topics.topics-name.topic-withdraw"));
             var withdrawRecord = buildRecord(topicWithdrawName, withDrowEvent);
             SendResult<String, Object> result = kafkaTemplate.send(withdrawRecord).get();
